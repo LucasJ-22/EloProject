@@ -2,10 +2,70 @@ import React from "react";
 
 export class Login extends React.Component
 {
-    constructor(compo)
-    {
-        super(compo);
-    }
+    constructor() {
+        super();
+        this.state = {
+          input: {},
+          errors: {}
+        };
+         
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+      }
+         
+      handleChange(event) {
+        let input = this.state.input;
+        input[event.target.name] = event.target.value;
+      
+        this.setState({
+          input
+        });
+      }
+         
+      handleSubmit(event) {
+        event.preventDefault();
+      
+        if(this.validate()){
+            console.log(this.state);
+      
+            let input = {};
+            input["senha"] = "";
+            input["senha2"] = "";
+            this.setState({input:input});
+            
+            alert('Demo Form is submited');
+        }
+      }
+      
+      validate(){
+          let input = this.state.input;
+          let errors = {};
+          let isValid = true;      
+              
+          if (!input["senha"]) {
+            isValid = false;
+            errors["senha"] = "Please enter your password.";
+          }
+      
+          if (!input["senha2"]) {
+            isValid = false;
+            errors["senha2"] = "Please enter your confirm password.";
+          }
+      
+          if (typeof input["senha"] !== "undefined" && typeof input["senha2"] !== "undefined") {
+              
+            if (input["senha"] != input["senha2"]) {
+              isValid = false;
+              errors["senha"] = "Passwords don't match.";
+            }
+          } 
+      
+          this.setState({
+            errors: errors
+          });
+      
+          return isValid;
+      }
 
     render ()
     {
